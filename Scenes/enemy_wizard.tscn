@@ -1,0 +1,75 @@
+[gd_scene load_steps=10 format=3 uid="uid://ry56sd6ttvxt"]
+
+[ext_resource type="Texture2D" uid="uid://dqlsselw845jw" path="res://Assets/Old Tilesets/Sprites.png" id="1_r8na4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkg7y"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(256, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1r60w"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(256, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3d6aa"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(288, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1vqc"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(288, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxl11"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(272, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhw6b"]
+atlas = ExtResource("1_r8na4")
+region = Rect2(272, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wi0sr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkg7y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1r60w")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3d6aa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1vqc")
+}],
+"loop": true,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxl11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fhw6b")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vupnk"]
+size = Vector2(16, 16)
+
+[node name="Enemy_Wizard" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wi0sr")
+animation = &"walk_right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vupnk")

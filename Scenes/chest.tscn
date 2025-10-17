@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpd6j8rugl658"]
+
+[ext_resource type="Script" uid="uid://c2isfvd1j4br4" path="res://Scripts/chest.gd" id="1_lyb87"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncd2y"]
+size = Vector2(18, 18)
+
+[node name="Chest" type="Node2D"]
+script = ExtResource("1_lyb87")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ncd2y")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
