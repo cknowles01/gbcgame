@@ -142,6 +142,7 @@ func start_swing():
 	timer.timeout.connect(on_swing_mid)
 
 func _set_sword_start_pose(facing: Vector2):
+	sword.play("swingFrame1")
 	match facing:
 		Vector2.UP:
 			sword.rotation_degrees = 90
@@ -150,11 +151,11 @@ func _set_sword_start_pose(facing: Vector2):
 			sword.rotation_degrees = -90
 			sword.position = Vector2(-14, 4)
 		Vector2.LEFT:
-			sword.rotation_degrees = 180
-			sword.position = Vector2(-16, 0)
+			sword.rotation_degrees = 0
+			sword.position = Vector2(-4, -14)
 		Vector2.RIGHT:
-			sword.rotation_degrees = 90
-			sword.position = Vector2(16, 0)
+			sword.rotation_degrees = 180
+			sword.position = Vector2(4, 14)
 
 func on_swing_mid():
 	sword.play("swingFrame2")
@@ -167,9 +168,11 @@ func on_swing_mid():
 			sword.position = Vector2(-14, 14)
 			sword.rotation_degrees = 180
 		Vector2.LEFT:
-			sword.position = Vector2(-18, 0)
+			sword.position = Vector2(-18, -14)
+			sword.rotation_degrees = 270
 		Vector2.RIGHT:
-			sword.position = Vector2(18, 0)
+			sword.position = Vector2(18, 14)
+			sword.rotation_degrees = 90
 
 	timer.stop()
 	# Prepare to finish swing
@@ -190,9 +193,11 @@ func on_swing_end():
 			sword.position = Vector2(0, 14)
 			sword.rotation_degrees = 180
 		Vector2.LEFT:
-			sword.position = Vector2(-18, 0)
+			sword.position = Vector2(-14, 0)
+			sword.rotation_degrees = -90
 		Vector2.RIGHT:
-			sword.position = Vector2(18, 0)
+			sword.position = Vector2(14, 0)
+			sword.rotation_degrees = 90
 	if timer.timeout.is_connected(on_swing_end):
 		timer.timeout.disconnect(on_swing_end)
 	timer.stop()
@@ -208,4 +213,11 @@ func _hide_sword():
 	if timer.timeout.is_connected(_hide_sword):
 		timer.timeout.disconnect(_hide_sword)
 	
+	
+	
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies"):
+		body.take_damage(1)
 	

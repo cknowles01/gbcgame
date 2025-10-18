@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://ry56sd6ttvxt"]
+[gd_scene load_steps=11 format=3 uid="uid://ry56sd6ttvxt"]
 
+[ext_resource type="Script" uid="uid://cjograofxav31" path="res://Scripts/enemy_wizard.gd" id="1_lkg7y"]
 [ext_resource type="Texture2D" uid="uid://dqlsselw845jw" path="res://Assets/Old Tilesets/Sprites.png" id="1_r8na4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lkg7y"]
@@ -66,6 +67,7 @@ animations = [{
 size = Vector2(16, 16)
 
 [node name="Enemy_Wizard" type="CharacterBody2D"]
+script = ExtResource("1_lkg7y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wi0sr")
