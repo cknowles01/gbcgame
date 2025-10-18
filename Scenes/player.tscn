@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cv8aukrix24us"]
+[gd_scene load_steps=26 format=3 uid="uid://cv8aukrix24us"]
 
 [ext_resource type="Script" uid="uid://ckb4rjabfw21j" path="res://Scripts/player.gd" id="1_cvnsp"]
 [ext_resource type="Texture2D" uid="uid://dqlsselw845jw" path="res://Assets/Old Tilesets/Sprites.png" id="2_6t5aa"]
@@ -159,7 +159,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-size = Vector2(17, 18)
+size = Vector2(14, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("2_6t5aa")
@@ -183,7 +183,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_6t5aa")
 }],
 "loop": true,
-"name": &"swing",
+"name": &"swingFrame1",
 "speed": 2.0
 }, {
 "frames": [{
@@ -195,22 +195,31 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6t5aa"]
+size = Vector2(17, 17)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_cvnsp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_pu2lt")
-animation = &"swing_down"
+animation = &"walk_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
 
 [node name="Sword" type="AnimatedSprite2D" parent="."]
+position = Vector2(63, -2)
 sprite_frames = SubResource("SpriteFrames_vgqql")
-animation = &"swing"
+animation = &"swingFrame1"
+
+[node name="Hitbox" type="Area2D" parent="Sword"]
+
+[node name="swordshape" type="CollisionShape2D" parent="Sword/Hitbox"]
+shape = SubResource("RectangleShape2D_6t5aa")
 
 [node name="Timer" type="Timer" parent="."]

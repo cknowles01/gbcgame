@@ -1,91 +1,73 @@
 extends CharacterBody2D
 
 # === CONFIG ===
-const TILE_SIZE := 16            #grid size is 16
-var MOVE_TIME := 0.12            #unused
-const SWING_COOLDOWN = .5
-var swing_timer = 0.0
-var is_swinging = false
+const TILE_SIZE := 16
+const MOVE_SPEED := 80
+const SWING_COOLDOWN := 0.5
+
 # === STATE ===
+var swing_timer := 0.0
+var is_swinging := false
 var moving := false
 var target_position : Vector2
-var dir := Vector2.DOWN          #default facing direction
+var dir := Vector2.DOWN          # default facing direction
 var facing := Vector2.ZERO
+var input_dir := Vector2.ZERO
 
-var input_dir
 # --- ITEMS AND MENU STUFF ---
-
-
-var timer := Timer.new()
-
 var inventory = {}
 var equipped_weapon: String = ""
-@onready var sword = $Sword
-@onready var anim := $AnimatedSprite2D
+
+# === NODES ===
+@onready var sword: AnimatedSprite2D = $Sword
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var tilemap := get_parent().get_node("TileMap")
+@onready var timer: Timer = Timer.new()
+@onready var hitbox = $Sword/Hitbox
 
 func _ready():
-	
-	# snap player to grid
-	self.add_to_group("Player")
+	add_child(timer)
+	timer.one_shot = true
+	sword.visible = false
+	Global.set_player(self)
+	add_to_group("Player")
+
+	# Snap player to grid
 	position = position.snapped(Vector2(TILE_SIZE, TILE_SIZE))
 	target_position = position
 	z_index = 10
-	sword.visible = false
-	Global.set_player(self)
-	
-
 
 
 func _physics_process(delta):
+	# --- INPUT ---
 	input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	
-	#I think i want to do my sword animation
-	match input_dir:
-		Vector2.LEFT:
-			print("We are now going left!!!!!!")
-			sword_direction(Vector2.LEFT)
-		Vector2.RIGHT:
-			print("We are going right")
-			sword_direction(Vector2.RIGHT)
-		Vector2.UP:
-			print("WE're going up@")
-			sword_direction(Vector2.UP)
-		Vector2.DOWN:
-			print("SDfdS")
-			sword_direction(Vector2.DOWN)
-		
-		
-	#input_dir seems to return an x and y value, either -1, 0, or 1
-	print(input_dir)
-	input_dir * TILE_SIZE
-	velocity = input_dir * 80
-	
-	if input_dir && is_swinging == false:
+	velocity = input_dir * MOVE_SPEED
+
+	# --- MOVEMENT ANIMATION ---
+	if input_dir and not is_swinging:
 		play_walk_animation(input_dir)
-	else:
+	elif not is_swinging:
 		play_idle_animation()
-	
-	
-	if Input.is_action_just_pressed("ui_select"):
-		print("swinging sword!!!")
-		start_swing()
-		sword_direction(input_dir)
+
 		
-	
+
+	# --- ATTACK ---
+	if Input.is_action_just_pressed("ui_select"):
+		start_swing()
+
+	# --- UPDATE SWING STATE ---
 	if is_swinging:
-		swing_timer -= delta   
+		swing_timer -= delta
 		if swing_timer <= 0:
 			is_swinging = false
 			sword.visible = false
-	facing = input_dir
+
+	# Update facing direction if moving
+	if input_dir != Vector2.ZERO:
+		facing = input_dir
 	move_and_slide()
-	
 
-
-
-
-# --- Animations ---
+# === ANIMATIONS ===
 func play_walk_animation(dir: Vector2):
 	if dir == Vector2.RIGHT:
 		anim.play("walk_right")
@@ -96,7 +78,14 @@ func play_walk_animation(dir: Vector2):
 	elif dir == Vector2.DOWN:
 		anim.play("walk_down")
 
-func play_swing_animation(dir):
+func play_idle_animation():
+	match dir:
+		Vector2.RIGHT: anim.play("idle_right")
+		Vector2.LEFT: anim.play("idle_left")
+		Vector2.UP: anim.play("idle_up")
+		Vector2.DOWN: anim.play("idle_down")
+
+func play_swing_animation(dir: Vector2):
 	if dir == Vector2.RIGHT:
 		anim.play("swing_right")
 	elif dir == Vector2.LEFT:
@@ -106,55 +95,117 @@ func play_swing_animation(dir):
 	elif dir == Vector2.DOWN:
 		anim.play("swing_down")
 
-func play_idle_animation():
-	match dir:
-		Vector2.RIGHT: anim.play("idle_right")
-		Vector2.LEFT: anim.play("idle_left")
-		Vector2.UP: anim.play("idle_up")
-		Vector2.DOWN: anim.play("idle_down")
-		
-
+# === INVENTORY ===
 func give_item(item_name: String):
 	if inventory.has(item_name):
 		inventory[item_name] += 1
 	else:
 		inventory[item_name] = 1
 	print("Obtained %s! Inventory: %s" % [item_name, inventory])
-	
 
-func start_swing():
-	is_swinging = true
-	swing_timer = SWING_COOLDOWN
-	sword.visible = true
-	#sword.position = Vector2(8, -16)
-	sword.play("swing")
-	
-func sword_direction(facing):
-	if sword.visible == true:
-		if facing == Vector2.UP:
-			sword.rotation_degrees = 0
-			sword.position = Vector2(0, -16)
-		elif facing == Vector2.DOWN:
-			#sword needs to face left first, i think
-			
-			#This is the first frame of the down swing and it looks good
-			sword.rotation_degrees = -90
-			sword.position = Vector2(-14, 4)
-			
-			timer.wait_time = .2
-			sword.play("swingFrame2")
-			
-			
-		elif facing == Vector2.LEFT:
-			sword.rotation_degrees = -90
-			sword.position = Vector2(-16, 0)
-		elif facing == Vector2.RIGHT:
-			print("FUCNIGN WORD")
-			sword.rotation_degrees = 90
-			sword.position = Vector2(16, 0)
-	
-	
 func equip_weapon(item_name: String):
 	if inventory.has(item_name):
 		equipped_weapon = item_name
 		print("You equipped %s!" % [item_name])
+
+# === SWORD LOGIC ===
+func start_swing():
+	if is_swinging:
+		return  # don’t interrupt a swing
+
+	is_swinging = true
+	swing_timer = SWING_COOLDOWN
+	sword.visible = true
+	
+	#--- FOR HITBOX --- #
+	hitbox.monitoring = true
+	
+	
+	
+	# Lock current direction for the swing
+	var dir_to_use = facing if facing != Vector2.ZERO else dir
+	dir = dir_to_use
+	timer.stop()
+	sword.play("swingFrame1")
+	# Set first frame
+	_set_sword_start_pose(dir_to_use)
+
+
+	# Reset and connect timer events cleanly
+	if timer.timeout.is_connected(on_swing_end):
+		timer.timeout.disconnect(on_swing_end)
+	if timer.timeout.is_connected(on_swing_mid):
+		timer.timeout.disconnect(on_swing_mid)
+
+	timer.wait_time = 0.12
+	timer.start()
+	timer.timeout.connect(on_swing_mid)
+
+func _set_sword_start_pose(facing: Vector2):
+	match facing:
+		Vector2.UP:
+			sword.rotation_degrees = 90
+			sword.position = Vector2(14, 4)
+		Vector2.DOWN:
+			sword.rotation_degrees = -90
+			sword.position = Vector2(-14, 4)
+		Vector2.LEFT:
+			sword.rotation_degrees = 180
+			sword.position = Vector2(-16, 0)
+		Vector2.RIGHT:
+			sword.rotation_degrees = 90
+			sword.position = Vector2(16, 0)
+
+func on_swing_mid():
+	sword.play("swingFrame2")
+	# Slight motion adjustment for visual arc
+	match dir:
+		Vector2.UP:
+			sword.position = Vector2(14, -14)
+			sword.rotation_degrees = 0
+		Vector2.DOWN:
+			sword.position = Vector2(-14, 14)
+			sword.rotation_degrees = 180
+		Vector2.LEFT:
+			sword.position = Vector2(-18, 0)
+		Vector2.RIGHT:
+			sword.position = Vector2(18, 0)
+
+	timer.stop()
+	# Prepare to finish swing
+	if timer.timeout.is_connected(on_swing_mid):
+		timer.timeout.disconnect(on_swing_mid)
+	
+	timer.wait_time = 0.12
+	timer.start()
+	timer.timeout.connect(on_swing_end)
+
+func on_swing_end():
+	sword.play("swingFrame1")
+	match dir:
+		Vector2.UP:
+			sword.position = Vector2(0, -14)
+			sword.rotation_degrees = 0
+		Vector2.DOWN:
+			sword.position = Vector2(0, 14)
+			sword.rotation_degrees = 180
+		Vector2.LEFT:
+			sword.position = Vector2(-18, 0)
+		Vector2.RIGHT:
+			sword.position = Vector2(18, 0)
+	if timer.timeout.is_connected(on_swing_end):
+		timer.timeout.disconnect(on_swing_end)
+	timer.stop()
+	timer.wait_time = .12
+	timer.start()
+	timer.timeout.connect(_hide_sword)
+	
+func _hide_sword():
+	sword.visible = false
+	is_swinging = false
+	hitbox.monitoring = false
+	timer.stop()
+	if timer.timeout.is_connected(_hide_sword):
+		timer.timeout.disconnect(_hide_sword)
+	
+	
