@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b77wbakg7fuik"]
+[gd_scene load_steps=7 format=3 uid="uid://b77wbakg7fuik"]
 
 [ext_resource type="Texture2D" uid="uid://be4j8xqx10cn6" path="res://Assets/New Tileset (v2)/NEW Dungeons (v2).png" id="1_2o4ea"]
 [ext_resource type="Script" uid="uid://cyj6eswsjewab" path="res://Scripts/winding_labyrinth.gd" id="1_ta7tl"]
+[ext_resource type="PackedScene" uid="uid://bpd6j8rugl658" path="res://Scenes/chest.tscn" id="3_q61ta"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ta7tl"]
 texture = ExtResource("1_2o4ea")
@@ -661,3 +662,9 @@ format = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spawn"]
 shape = SubResource("RectangleShape2D_ta7tl")
+
+[node name="Chest" parent="." instance=ExtResource("3_q61ta")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(500, 0)
+zoom = Vector2(0.3, 0.3)
