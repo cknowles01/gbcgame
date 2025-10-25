@@ -38,8 +38,8 @@ func _generate_dungeon():
 			dungeon[y].append(WALL)
 	
 	#Start in the center - Doesn't work
-	var x = 0 as int
-	var y = 0 as int
+	var x = 250 as int
+	var y =  100 as int
 
 	var prev = 1
 	#random walking

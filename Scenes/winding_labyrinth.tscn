@@ -666,5 +666,5 @@ shape = SubResource("RectangleShape2D_ta7tl")
 [node name="Chest" parent="." instance=ExtResource("3_q61ta")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(500, 0)
-zoom = Vector2(0.3, 0.3)
+offset = Vector2(2400, 1500)
+zoom = Vector2(0.2, 0.2)
