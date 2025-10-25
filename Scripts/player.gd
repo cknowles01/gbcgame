@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 # === CONFIG ===
 const TILE_SIZE := 16
-const MOVE_SPEED := 80
+const MOVE_SPEED := 200
 const SWING_COOLDOWN := 0.5
 
 # === STATE ===
@@ -42,7 +42,7 @@ func _physics_process(delta):
 	# --- INPUT ---
 	input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity = input_dir * MOVE_SPEED
-
+	
 	# --- MOVEMENT ANIMATION ---
 	if input_dir and not is_swinging:
 		play_walk_animation(input_dir)
