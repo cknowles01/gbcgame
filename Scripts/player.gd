@@ -48,8 +48,14 @@ func _physics_process(delta):
 		play_walk_animation(input_dir)
 	elif not is_swinging:
 		play_idle_animation()
+		
 
 		
+
+	if Input.is_action_just_pressed("ui_cancel") or Input.is_action_just_pressed("ui_text_backspace"):
+		var pause_menu = get_node("MainMenu")
+		pause_menu.toggle()
+
 
 	# --- ATTACK ---
 	if Input.is_action_just_pressed("ui_select"):

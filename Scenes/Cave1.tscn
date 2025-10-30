@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://dx00754le4ado"]
 
 [ext_resource type="Texture2D" uid="uid://be4j8xqx10cn6" path="res://Assets/New Tileset (v2)/NEW Dungeons (v2).png" id="1_ge35d"]
-[ext_resource type="Script" uid="uid://mx3dasuq6fie" path="res://Scripts/cave_1.gd" id="1_qga4y"]
+[ext_resource type="Script" uid="uid://d1x01n7wrmun4" path="res://Scripts/main_menu.gd" id="1_qga4y"]
 [ext_resource type="PackedScene" uid="uid://bpd6j8rugl658" path="res://Scenes/chest.tscn" id="2_cdem8"]
 [ext_resource type="Script" uid="uid://bd1hfucqvmk4e" path="res://Scripts/cave.gd" id="3_pijff"]
 

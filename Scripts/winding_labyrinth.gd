@@ -3,13 +3,14 @@ extends Node2D
 const STEPS = 60000
 const WALL = 0
 const FLOOR = 1
-var dungeon = {}  # use dictionary: key = Vector2i(x, y), value = FLOOR/WALL
+ #dictionary: key = Vector2i(x, y), value = FLOOR/WALL
+var dungeon = {} 
 
 @onready var tilemap = $TileMap
-
+@onready var wizard = preload("res://Scenes/enemy_wizard.tscn")
 const FLOOR_COORD = Vector2i(0, 6)
-const WALL_COORD = Vector2i(1, 11)
-
+const WALL_COORD = Vector2i(27,8) #1,11 is test and 
+const STAIRS_COORD = Vector2i(3,9)
 func _ready():
 	randomize()
 	_generate_dungeon()
@@ -45,21 +46,28 @@ func _generate_walls():
 			var neighbor = pos + dir
 			if not dungeon.has(neighbor):
 				new_walls[neighbor] = WALL
-	dungeon.merge(new_walls)  # add walls to the map
+	#adds walls to the map
+	dungeon.merge(new_walls)  
 
 func _draw_dungeon():
 	tilemap.clear()
 	var halfway = dungeon.size()/2
-	print(halfway)
-	print(dungeon.size())
+	
 	var counter = 1
 	for pos in dungeon.keys():
 		var is_floor = dungeon[pos] == FLOOR
 		var atlas_coords = FLOOR_COORD if is_floor else WALL_COORD
 		if counter == halfway:
 			print('halwfay')
-			
 			$Spawn.global_position = pos * 16
+		elif counter % 1000 == 0:
+			var wizard_instance = wizard.instantiate()
+			add_child(wizard_instance)
+			wizard_instance.global_position = pos * 16
+			#print("wizarde")
+		elif counter == len(dungeon.keys()):
+			atlas_coords = STAIRS_COORD
+			print('testnd')
 		counter += 1
 		tilemap.set_cell(0, pos, 0, atlas_coords)
 

@@ -158,8 +158,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-size = Vector2(14, 18)
+[sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
+radius = 7.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cvnsp"]
 atlas = ExtResource("2_6t5aa")
@@ -200,9 +200,10 @@ animation = &"walk_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, 0)
-shape = SubResource("RectangleShape2D_cvnsp")
+shape = SubResource("CircleShape2D_cvnsp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
 
 [node name="Sword" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, 0)

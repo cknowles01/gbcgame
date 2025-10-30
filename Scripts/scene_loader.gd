@@ -1,6 +1,7 @@
 extends Node2D
 
 var player = preload("res://Scenes/player.tscn")
+var main_menu = preload("res://Scenes/main_menu.tscn")
 var current_map 
 var last_map
 
@@ -11,8 +12,10 @@ func _ready():
 	current_map = preload("res://Scenes/world_map.tscn")
 	current_map = current_map.instantiate()
 	add_child(current_map)
+
 	
-	
+	main_menu = main_menu.instantiate()
+	add_child(main_menu)
 	
 	
 func _on_change_map(next_map_path: String, spawn_point_loc: String):
