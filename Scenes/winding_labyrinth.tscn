@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://b77wbakg7fuik"]
+[gd_scene load_steps=7 format=3 uid="uid://b77wbakg7fuik"]
 
 [ext_resource type="Texture2D" uid="uid://be4j8xqx10cn6" path="res://Assets/New Tileset (v2)/NEW Dungeons (v2).png" id="1_2o4ea"]
 [ext_resource type="Script" uid="uid://cyj6eswsjewab" path="res://Scripts/winding_labyrinth.gd" id="1_ta7tl"]
+[ext_resource type="AudioStream" uid="uid://jhgp0tnrfbu4" path="res://Assets/Songs/xDeviruchi - Mysterious Dungeon.wav" id="3_q61ta"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ta7tl"]
 texture = ExtResource("1_2o4ea")
@@ -666,3 +667,7 @@ shape = SubResource("RectangleShape2D_ta7tl")
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(2400, 1500)
 zoom = Vector2(0.05, 0.05)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_q61ta")
+autoplay = true

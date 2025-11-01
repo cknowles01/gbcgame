@@ -1,6 +1,6 @@
 extends Node2D
 
-const STEPS = 60000
+const STEPS = 15000
 const WALL = 0
 const FLOOR = 1
  #dictionary: key = Vector2i(x, y), value = FLOOR/WALL
@@ -9,7 +9,7 @@ var dungeon = {}
 @onready var tilemap = $TileMap
 @onready var wizard = preload("res://Scenes/enemy_wizard.tscn")
 const FLOOR_COORD = Vector2i(0, 6)
-const WALL_COORD = Vector2i(27,8) #1,11 is test and 
+const WALL_COORD = Vector2i(43,1) #1,11 is test and 
 const STAIRS_COORD = Vector2i(3,9)
 func _ready():
 	randomize()
