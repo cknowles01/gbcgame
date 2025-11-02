@@ -41,7 +41,7 @@ func _ready():
 func _physics_process(delta):
 	# --- INPUT ---
 	input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	print(input_dir)
+	
 	velocity = input_dir * MOVE_SPEED
 	
 	# --- MOVEMENT ANIMATION ---

@@ -7,7 +7,7 @@ const WALL = 0
 const FLOOR = 1
 
 const FLOOR_COORD = Vector2i(0, 6)
-const WALL_COORD = Vector2i(43, 1)
+const WALL_COORD = Vector2i(43, 2)
 const STAIRS_COORD = Vector2i(4, 5)
 var spawn
 @onready var tilemap: TileMap = $TileMap
@@ -116,17 +116,24 @@ func _draw_dungeon():
 		tilemap.set_cell(0, pos, 0, WALL_COORD)
 
 	#adds a few wizard enemies (randomly placed)
+	var divider
 	if floor_cells.size() > 0:
-		for i in range(5):
-			var pos = floor_cells[randi() % floor_cells.size()]
-			var wizard = wizard_scene.instantiate()
-			add_child(wizard)
-			wizard.global_position = pos * 16
+		if STEPS > 5000:
+			for i in range(STEPS/1000):
+				var pos = floor_cells[randi() % floor_cells.size()]
+				var wizard = wizard_scene.instantiate()
+				add_child(wizard)
+				wizard.global_position = pos * 16
+		else:
+			for i in range(5):
+				var pos = floor_cells[randi() % floor_cells.size()]
+				var wizard = wizard_scene.instantiate()
+				add_child(wizard)
+				wizard.global_position = pos * 16
 
 		# Player spawn, something is off
 		var spawn = floor_cells[floor_cells.size() / 2]
-		print(spawn * 16)
-		print(spawn)
+		
 		$LabyrinthSpawn.global_position = spawn * 16
 
 		#Should place stair near last cell, not sure if i like it or not

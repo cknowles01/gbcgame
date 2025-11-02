@@ -189,7 +189,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6t5aa"]
-size = Vector2(11, 16)
+size = Vector2(11.5, 18)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_cvnsp")
@@ -213,6 +213,7 @@ animation = &"swingFrame1"
 [node name="Hitbox" type="Area2D" parent="Sword"]
 
 [node name="swordshape" type="CollisionShape2D" parent="Sword/Hitbox"]
+position = Vector2(0.25, -1)
 shape = SubResource("RectangleShape2D_6t5aa")
 
 [node name="Timer" type="Timer" parent="."]

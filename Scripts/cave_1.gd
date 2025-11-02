@@ -17,8 +17,8 @@ func _ready():
 
 func _on_cave1_exit(body: Node2D) -> void:
 	if body.name == "Player":
-		print("hopefully hccanger")
+		print("Cave1 exit area entered")
 		var direction = body.input_dir
 		if direction.y > 0:
 			Global.change_map.emit("res://Scenes/world_map.tscn", "Cave1Entrance")
-			print("changerchange")
+			print("Map has been changed back to world_map")
