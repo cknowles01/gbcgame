@@ -1,7 +1,6 @@
 extends Node2D
 
 var player = preload("res://Scenes/player.tscn")
-var main_menu = preload("res://Scenes/main_menu.tscn")
 var current_map 
 var last_map
 
@@ -14,12 +13,10 @@ func _ready():
 	add_child(current_map)
 
 	
-	main_menu = main_menu.instantiate()
-	add_child(main_menu)
 	
 	
 func _on_change_map(next_map_path: String, spawn_point_loc: String):
-	print(spawn_point_loc)
+	
 	if current_map:
 		current_map.queue_free()
 	var next_map = load(next_map_path).instantiate()
@@ -32,6 +29,9 @@ func _on_change_map(next_map_path: String, spawn_point_loc: String):
 		return
 	
 	player.global_position = spawn_point.global_position
+	
 
 		
 	
+func on_map_fully_loaded(spawn_pos: Vector2):
+	player.global_position = spawn_pos

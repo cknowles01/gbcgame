@@ -18,4 +18,4 @@ func _on_labyrinth_entrance_body_entered(body: Node2D) -> void:
 		#print(direction)
 		if direction.y < 0:
 			print("Emit Signal to enter Winding Labyrinth")
-			Global.change_map.emit("res://Scenes/winding_labyrinth.tscn", "Spawn")
+			Global.change_map.emit("res://Scenes/winding_labyrinth.tscn", "LabyrinthSpawn")

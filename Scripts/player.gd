@@ -41,6 +41,7 @@ func _ready():
 func _physics_process(delta):
 	# --- INPUT ---
 	input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	print(input_dir)
 	velocity = input_dir * MOVE_SPEED
 	
 	# --- MOVEMENT ANIMATION ---
@@ -70,7 +71,10 @@ func _physics_process(delta):
 
 	# Update facing direction if moving
 	if input_dir != Vector2.ZERO:
-		facing = input_dir
+		if abs(input_dir.x) > abs(input_dir.y):
+			facing = Vector2(sign(input_dir.x),0)
+		else:
+			facing = Vector2(0, sign(input_dir.y))
 	move_and_slide()
 
 # === ANIMATIONS ===

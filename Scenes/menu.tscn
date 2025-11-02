@@ -24,9 +24,9 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.001
 anchor_right = 0.001
-offset_left = -298.652
+offset_left = -302.652
 offset_top = -171.0
-offset_right = 298.973
+offset_right = 294.973
 offset_bottom = 170.5
 texture = ExtResource("2_158mb")
 expand_mode = 1
@@ -54,6 +54,12 @@ theme_override_colors/font_pressed_color = Color(0, 1, 0.8039216, 1)
 theme_override_fonts/font = ExtResource("2_xhh6f")
 text = "Quit"
 
+[node name="Settings" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Settings
+"
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = -60.0
@@ -67,5 +73,53 @@ script = ExtResource("3_cayip")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="SettingsPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.289
+anchor_top = -0.416
+anchor_right = -1.289
+anchor_bottom = -0.416
+offset_left = -87.44
+offset_top = -3.8600006
+offset_right = 204.06
+offset_bottom = 151.14
+
+[node name="MapSizeLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0.02745098, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_xhh6f")
+text = "Map Size:"
+horizontal_alignment = 1
+
+[node name="MapSizeSpinbox" type="SpinBox" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="StepLabel" type="Label" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_xhh6f")
+text = "Random Walk Steps:"
+horizontal_alignment = 1
+
+[node name="StepSpinbox" type="SpinBox" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="SettingsPanel/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
 [connection signal="pressed" from="VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="toggled" from="VBoxContainer/Settings" to="." method="_on_settings_toggled"]
+[connection signal="value_changed" from="SettingsPanel/VBoxContainer/MapSizeSpinbox" to="." method="_on_map_size_spinbox_value_changed"]
+[connection signal="value_changed" from="SettingsPanel/VBoxContainer/StepSpinbox" to="." method="_on_step_spinbox_value_changed"]
+[connection signal="pressed" from="SettingsPanel/VBoxContainer/BackButton" to="." method="_on_back_pressed"]
